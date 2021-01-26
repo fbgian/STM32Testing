@@ -16,8 +16,8 @@ La funzione che ci servirà è:
 
 
  - *GPIO_TypeDef* GPIOx* - il nome del pinout associato a label, in questo caso scriveremo: **LED_GPIO_Port**
- - *uint16_t GPIO_Pin* - Qui scriveremo LED_Pin che è associato nel main.h
- - *GPIO_PinState PinState* - Qui scriveremo 1 / 0 a seconda di come vogliamo il led, rispettivamente acceso o spento.
+ - *uint16_t GPIO_Pin* - Qui scriveremo **LED_Pin** che è associato nel main.h
+ - *GPIO_PinState PinState* - Qui scriveremo **1** / **0** a seconda di come vogliamo il led, rispettivamente acceso o spento.
 
 Esempio di accensione e spegnimento:
 
