@@ -28,3 +28,29 @@ Esempio di accensione e spegnimento:
     HAL_Delay(150);
     HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 0);
     HAL_Delay(150);
+
+
+## Leggere i valori di un sensore analogico
+Vedremo l'esempio con un potenziometro.
+Per leggere il valore da un sensore per prima cosa dobbiamo inizializzare il pinout **PA0** ad `ADC1_IN1` per poi andare nelle categorie di sinistra alla voce "Analog" e cliccare su `ADC1`, arrivati qui selezionare l'IN* da noi scelto, in questo caso l'1, e impostarlo su single-ended in quanto a noi ci servirà per convertire il segnale di un solo sensore.
+A questo punto, una volta generato il codice salvando con `ctrl + s`, torniamo nel `main.c` e notiamo che abbiamo una nuova variabile chiamata `ADC_HandleTypeDef hadc1` che è quella che si occupa del pinout a cui abbiamo collegato il sensore, dopo di essa instanziare una variabile dentro al main `uint16_t raw` che utilizzeremo per immagazzinare il valore.
+
+Il codice da scrivere nel **while** per leggere e convertire i valori del sensore:
+
+	    HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+		raw = HAL_ADC_GetValue(&hadc1); // qui avremo il valore del sensore 
+  
+  
+Se vogliamo vedere il valore sul pc senza dover utilizzare altri strumenti, abbiamo bisogno di un monitor seriale.
+## Monitor seriale
+Dobbiamo configurare un pinout a **USART2_TX** nel file `.ioc`, con la nostra board il relativo pinout è **PA2**. Fatto ciò andiamo nella categoria "Connectivity" , selezionare **USART2** e cambiare la modalità in **Asynchronous**, i valori sottostanti possiamo lasciarli di default. Torniamo nel `main.c` sempre dopo aver generato il codice e notiamo la nuova variabile **UART_HandleTypeDef huart2;**.
+Andiamo nel **main** e instanziamo una variabile `char msg[10];` che utilizzeremo per scrivere il messaggio da visualizzare nel monitor.
+
+All'interno del while scriveremo: 
+
+    sprintf(msg, "%hu\r\n", raw);
+	//Mando il messaggio all'uart (usare uart2)
+	HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+
+Per utilizzare il monitor consiglio di usare il monitor seriale di arduino poichè già configurato. Un errore che ho riscontrato è stato visualizzare valori del tutto differenti da quelli aspettati, per risolvere ho aumentato il **baudrate** nel monitor di arduino a 38400 baud .
