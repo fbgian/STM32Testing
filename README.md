@@ -2,6 +2,9 @@
 
 Per prima cosa creare un nuovo progetto "STM32"  e selezionare la board da programmare, in questo caso la STM32F303K8 lasciando i valori di default e lasciando il `c` come linguaggio di programmazione.
 
+## Pinout STM32F303K8 
+![Pinout della STM32F303K8](https://os.mbed.com/media/uploads/bcostm/nucleo_f303k8_2017_10_10.png)
+
 ## Blink del Led integrato
 
 Per prima cosa fare riferimento al datasheet della board per andare a vedere quale è il pinout associato al led, in questo caso `PB3`. Successivamente andare nel file `.ioc` per modificare i pinout della stessa, quindi assicurandosi di essere su Pinout & Configuration andare a cliccare sopra `PB3` e selezionare **GPIO_Output**.
